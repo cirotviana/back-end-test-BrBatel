@@ -20,22 +20,32 @@ import {
     @PrimaryGeneratedColumn()
     id!: number;
   
-    @Column()
+    @Column({ nullable: false})
     name!: string;
+
   
-    @Column({unique: true})
+    @Column({
+              unique: true,
+              nullable: false
+            })
     cnpj!: string;
+
   
-    @Column({type: "money"})
+    @Column({
+              type: "money",
+              nullable: false
+            })
     demanda!: string;
+    
 
     @Column({
-      type: "enum",
-      enum: AnnualBilling
-    })
+              type: "enum",
+              enum: AnnualBilling,
+              nullable: false
+            })
     faturamentoAnual!: AnnualBilling;
 
-    @Column()
+    @Column({ nullable: false})
     sobre!: string;
   
     @CreateDateColumn()
@@ -43,10 +53,6 @@ import {
   
     @UpdateDateColumn()
     updatedAt!: Date;
-
-    static function(){
-      
-    }
 
 
 

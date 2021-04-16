@@ -1,150 +1,94 @@
 import { Request, Response } from 'express';
-import { getManager } from "typeorm";
+import { DeleteResult, getManager, QueryFailedError } from "typeorm";
 
 import { Users, UserTypes } from "../models/users.model";
 import { Companies, AnnualBilling } from "../models/companies.model";
 
 
 
-export async function getCompanies(req: Request, res: Response) {
-
+export function getCompanies(req: Request, res: Response) {
     getManager().find(Companies)
         .then((companies) => {
             res.send(companies)
         })
         .catch((err) => {
-            res.send(err);
+            dbErrorHandler(err, res);
         });
 }
 
-export async function getCompanyById(req: Request, res: Response) {
+export function getCompanyById(req: Request, res: Response) {
     getManager().findOneOrFail(Companies, req.params.id)
         .then((result) => {
             res.send(result)
         })
         .catch((err) => {
-            res.send(err);
+            dbErrorHandler(err, res);
         });
 }
 
-export async function createCompany(req: Request, res: Response) {
-    getManager().create(Companies, { 
-        name: '',
-        cnpj: '',
-        demanda: '',
-        faturamentoAnual: AnnualBilling.upTo10kk,
-        sobre: '',
-
-
-    })
+export function createCompany(req: Request, res: Response) {
+    getManager()
+        .create(Companies, req.body)
         .save()
         .then((result) => {
-            res.send(result)
+            res.send({
+                'message': process.env.COMPANY_ADDED,
+                'id': result.id
+            })
         })
         .catch((err) => {
-            res.send(err);
+            dbErrorHandler(err, res);
         });
 }
 
-function onResult(result: any, res: Response) {
-    if (result)
-        res.send(result)
+export function updateCompany(req: Request, res: Response) {
+    let partialEntity = {};
+    Object.assign(partialEntity, req.body);
+    getManager().findOneOrFail(Companies, req.params.id)
+        .then((result: Companies) => {
+            getManager().update(Companies, req.params.id, partialEntity)
+                .then((result) => {
+                    res.send({
+                        'message': process.env.COMPANY_UPDATED,
+                        'id': req.params.id
+                    })
+                }).catch((err) => {dbErrorHandler(err, res);});
+        })
+        .catch((err) => {dbErrorHandler(err, res);});
+}
+
+
+export function deleteCompany(req: Request, res: Response) {
+    getManager().findOneOrFail(Companies, req.params.id)
+        .then((result: Companies) => {
+            getManager().delete(Companies, req.params.id)
+                .then((result: DeleteResult) => {
+                    console.log(result);
+                    
+                    res.send({
+                        'message': process.env.COMPANY_DELETED,
+                        'id': req.params.id
+                    })
+                }).catch((err) => {dbErrorHandler(err, res);});
+        })
+        .catch((err) => {dbErrorHandler(err, res);});
+  }
+  
+
+
+export function dbErrorHandler(err: any, res: Response) {
+    if (err.name === "QueryFailedError")
+        res.status(400).send({
+            name: err.name,
+            message: err.message,
+            detail: err.detail
+        })
+    else if (err.name === "EntityNotFound")
+        res.status(404).send(err);
     else
-        res.send('')
-}
-
-
-
-
-/*     })        
-    .catch((err) => {
-        res.send(err);
-    });
-
- */
-
-/*     let companies = new Companies();
-
-    companies.recover */
-
-/*     const user = await getConnection()
-    .createQueryBuilder()
-    .select("user")
-    .from(User, "user")
-    .where("user.id = :id", { id: 1 })
-    .getOne(); */
-
-
-
-/* 
-    let user = new Users ();
-
-    user.name= 'Teste12'
-    user.userName = 'teste2'
-    user.email= 'teste2@exemplo.com'
-    user.tipo= UserTypes.USER
-    user.password= 'ajksdhajsdjkhajkhdfjkhdajksfhjkadshjkadhsfjkhadsjkfdjksafjkadsfkadsfk' 
-
-    await user.save();*/
-
-/*     res.send('ok!');
-
-    for (let i = 0; i < 8; i++) {
-
-        let company = new Companies ();
-
-        company.name= 'Company'+i
-        company.cnpj = '99.999.999/9999-9'+i
-        company.demanda = '2.000,00'
-        company.faturamentoAnual = AnnualBilling.upTo10kk
-        company.sobre = "Empresa Criada em 2014."
-    
-        var companysaved = await company.save();
-        
-        console.log(companysaved);
-    } */
-
-
-
-
-
-/*     createConnection(dbConfig)
-    .then((_connection)=>{
-
-        let user = new Users ();
-
-        user.name= 'Teste1'
-        user.userName = 'teste1'
-        user.email= 'teste@exemplo.com'
-        user.tipo= UserTypes.ADMIN
-        user.password= 'ajksdhajsdjkhajkhdfjkhdajksfhjkadshjkadhsfjkhadsjkfdjksafjkadsfkadsfk'
-        
-        user.save()
-        .then((result: Users)=>{
-            console.log(result);
-            res.send(result);
+        res.status(500).send({
+            name: "IntenalServerError",
+            message: process.env.ERR500,
+            //err: err
         })
-        .catch((err) => {
-            res.send(err);
-        });
-    })
-    .catch((err) => {
-        res.send(err);
-    });
- */
-
-/*     createConnection(dbConfig)
-    .then((_connection) => {
-        //console.log(_connection.close());
-        res.send('Conectado no db.');
-        
-        _connection.close()
-    })
-    .catch((err) => {
-        res.send(err);
-    }) */
-
-
-function errReturn(res: Response) {
-    return (err: Error) => { console.log(err); res.status(500).send(process.env.ERR500); };
 }
