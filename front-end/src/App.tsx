@@ -1,14 +1,23 @@
-import React from 'react';
-import PrimarySearchAppBar from './components/CompaniesAppBar';
+import { Box, createMuiTheme, ThemeProvider } from '@material-ui/core';
+import Copyright from './components/Copyright';
+import CompaniesPage from './components/CompaniesPage';
+
+import { ptBR } from '@material-ui/core/locale';
+
+const theme = createMuiTheme({
+  palette: {
+    type: 'dark',
+  },
+}, ptBR);
 
 function App() {
   return (
-    <>
-      <div className="App">
-        <PrimarySearchAppBar></PrimarySearchAppBar>
 
-      </div>
-    </>
+    <ThemeProvider theme={theme}>
+      <CompaniesPage />
+      <Copyright />
+    </ThemeProvider>
+
   );
 }
 
