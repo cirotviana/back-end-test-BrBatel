@@ -59,8 +59,12 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function PrimarySearchAppBar(props: any) {
-  const classes = useStyles(props.theme);
+
+const SearchCompaniesBar : React.FC<{updateSearchInput: Function, searchInputState:  string}> = (props)=>{
+  const classes = useStyles();
+
+  const {updateSearchInput, searchInputState} = props;
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -72,6 +76,10 @@ export default function PrimarySearchAppBar(props: any) {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  function handleSearchInputChange(event: any) {
+    updateSearchInput(event.target.value);
+  }
 
 
   const menuId = 'primary-search-account-menu';
@@ -121,6 +129,8 @@ export default function PrimarySearchAppBar(props: any) {
           input: classes.inputInput,
         }}
         inputProps={{ 'aria-label': 'search' }}
+        onChange={handleSearchInputChange}
+        value={searchInputState}
       />
     </div>
   )
@@ -148,3 +158,6 @@ export default function PrimarySearchAppBar(props: any) {
     </>
   );
 }
+
+
+export default SearchCompaniesBar;

@@ -1,6 +1,6 @@
 import { Box, createMuiTheme, ThemeProvider } from '@material-ui/core';
 import Copyright from './components/Copyright';
-import CompaniesPage from './components/CompaniesPage';
+import CompaniesPage from './components/Companies/CompaniesPage';
 
 import { ptBR } from '@material-ui/core/locale';
 

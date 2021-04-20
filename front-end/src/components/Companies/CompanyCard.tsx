@@ -5,11 +5,14 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 
+import { Companies, AnnualBilling } from '../../models/companies.model';
+
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
         margin: theme.spacing(2, 1),
         flexShrink: 0,
         minWidth: 304,
+        maxHeight: 400,
         textAlign: 'justify',
         [theme.breakpoints.down('sm')]: {
             flexBasis: '100%'
@@ -29,29 +32,34 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     },
 }));
 
-export default function MediaCard() {
+const CompanyCard: React.FC<{company: Companies, openCompany: Function}> = (props) =>  {
     const classes = useStyles();
+    
+    const company = props.company;
 
     return (
         <Card className={classes.root}>
-            <CardActionArea>
+            <CardActionArea
+            onClick={()=>(props.openCompany(company))}
+            > 
                 <CardMedia
                     className={classes.media}
                     /*  image="/logo192.png" */
-                    title="Contemplative Reptile"
+                    title={company.name}
                 >
                     <img src="/logo192.png"></img>
                 </CardMedia>
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                        Microsoft Company
+                        {company.name.length>=21 ? company.name.slice(0,19)+ '...' : company.name }
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                        across all continents except Antarctica
+                        {company.sobre.length>150 ? company.sobre.slice(0,150)+ '...' : company.sobre }
                     </Typography>
                 </CardContent>
             </CardActionArea>
         </Card>
     );
 }
+
+export default CompanyCard;
