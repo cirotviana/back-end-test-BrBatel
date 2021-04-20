@@ -6,16 +6,21 @@
 
 import app from '../app';
 
+//Enviroment Messages
+//#   Menssagens
+process.env.MSG_SUCCESS="Operação realizada com sucesso."
+process.env.COMPANY_ADDED='Empresa cadastrada.'
+process.env.COMPANY_UPDATED='Dados da empresa atualizados.'
+process.env.COMPANY_DELETED='Empresa excluida.'
+//#   Error MESSAGES
+process.env.ERR500="Internal server error."
+process.env.ERR400="Client-side input fails validation."
+process.env.ERR404="Resource is not found."
+
 
 var debug = require('debug')('src:server');
 import { createServer } from 'http';
-import { Connection, createConnection } from 'typeorm';
-import dbConfig from '../config/database';
 
-
-
-createConnection(dbConfig)
-  .then((_connection: Connection) => {
 
     /**
    * Get port from environment and store in Express.
@@ -100,6 +105,4 @@ createConnection(dbConfig)
       else var bind = 'null'
       debug('Listening on ' + bind);
     }
-
-  }).catch((err) => { console.log('Erro na conexão com o BD.\n' + err) })
 

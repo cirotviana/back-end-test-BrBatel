@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
-import { DeleteResult, getManager, QueryFailedError } from "typeorm";
+import { DeleteResult, getManager} from "typeorm";
 
-import { Users, UserTypes } from "../models/users.model";
-import { Companies, AnnualBilling } from "../models/companies.model";
+import { Companies } from "../models/companies.model";
 
 
 
@@ -57,14 +56,11 @@ export function updateCompany(req: Request, res: Response) {
         .catch((err) => {dbErrorHandler(err, res);});
 }
 
-
 export function deleteCompany(req: Request, res: Response) {
     getManager().findOneOrFail(Companies, req.params.id)
         .then((result: Companies) => {
             getManager().delete(Companies, req.params.id)
                 .then((result: DeleteResult) => {
-                    console.log(result);
-                    
                     res.send({
                         'message': process.env.COMPANY_DELETED,
                         'id': req.params.id
@@ -74,8 +70,6 @@ export function deleteCompany(req: Request, res: Response) {
         .catch((err) => {dbErrorHandler(err, res);});
   }
   
-
-
 export function dbErrorHandler(err: any, res: Response) {
     if (err.name === "QueryFailedError")
         res.status(400).send({

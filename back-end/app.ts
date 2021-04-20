@@ -2,19 +2,19 @@ import express, { json, urlencoded } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-
-import dbConfig from './config/database';
-
+var cors = require('cors');
 
 //Environment Variables Midleware
 import { config } from 'dotenv';
 config();
 
+
+
 import companiesRouter from './api/routes/companies.route';
-import { Connection, createConnection } from 'typeorm';
 
 const app = express();
 
+app.use(cors())
 
 app.use(logger('dev'));
 app.use(json());

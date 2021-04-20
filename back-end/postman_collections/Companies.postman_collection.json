@@ -33,12 +33,12 @@
 					"urlencoded": []
 				},
 				"url": {
-					"raw": "http://localhost:3000/companies",
+					"raw": "http://localhost:3001/companies",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "3001",
 					"path": [
 						"companies"
 					]
@@ -68,12 +68,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/companies/:id",
+					"raw": "http://localhost:3001/companies/:id",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "3001",
 					"path": [
 						"companies",
 						":id"
@@ -81,7 +81,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "1"
+							"value": "5"
 						}
 					]
 				}
@@ -117,38 +117,38 @@
 					"urlencoded": [
 						{
 							"key": "name",
-							"value": "Company of Sea6",
+							"value": "Company of ARS3",
 							"type": "text"
 						},
 						{
 							"key": "cnpj",
-							"value": "10.000.000/0000-05",
+							"value": "10.000.000/0000-97",
 							"type": "text"
 						},
 						{
 							"key": "demanda",
-							"value": "10000",
+							"value": "10000.11",
 							"type": "text"
 						},
 						{
 							"key": "faturamentoAnual",
-							"value": "Até R$ 10 milhões",
+							"value": "Acima de  R$ 500 milhões",
 							"type": "text"
 						},
 						{
 							"key": "sobre",
-							"value": "",
+							"value": "AKSADLJA JDKASDJK J ASDKJASDL JALSKDJKL A    SJDJSA L D JLKASJDK LAJSJDA KL SJDK JASLDJAS DJALS JDKL ASJ",
 							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "http://localhost:3000/companies",
+					"raw": "http://localhost:3001/companies",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "3001",
 					"path": [
 						"companies"
 					]
@@ -190,12 +190,12 @@
 						},
 						{
 							"key": "cnpj",
-							"value": "10.000.000/0000-10",
+							"value": "10.000.000/0000-11",
 							"type": "text"
 						},
 						{
 							"key": "demanda",
-							"value": "10005,05",
+							"value": "1000599999999,10",
 							"type": "text"
 						},
 						{
@@ -205,18 +205,18 @@
 						},
 						{
 							"key": "sobre",
-							"value": "",
+							"value": "Company of Sea6 Company of Sea6 Company of Sea6",
 							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "http://localhost:3000/companies/:id",
+					"raw": "http://localhost:3001/companies/:id",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "3001",
 					"path": [
 						"companies",
 						":id"
@@ -224,7 +224,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "1"
+							"value": "5"
 						}
 					]
 				}
@@ -259,12 +259,12 @@
 					"urlencoded": []
 				},
 				"url": {
-					"raw": "http://localhost:3000/companies/:id",
+					"raw": "http://localhost:3001/companies/:id",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "3001",
 					"path": [
 						"companies",
 						":id"
@@ -272,7 +272,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "32"
+							"value": "50"
 						}
 					]
 				}

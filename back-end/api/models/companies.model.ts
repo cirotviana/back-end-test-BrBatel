@@ -53,7 +53,4 @@ import {
   
     @UpdateDateColumn()
     updatedAt!: Date;
-
-
-
   }
