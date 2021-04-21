@@ -1,18 +1,41 @@
 import { Request, Response } from 'express';
-import { DeleteResult, getManager} from "typeorm";
+import { DeleteResult, getManager } from "typeorm";
 
 import { Companies } from "../models/companies.model";
 
 
 
 export function getCompanies(req: Request, res: Response) {
-    getManager().find(Companies)
-        .then((companies) => {
-            res.send(companies)
-        })
-        .catch((err) => {
-            dbErrorHandler(err, res);
-        });
+/*     const hasQueryParameters = Object.keys(req.query).length ? true : false;
+    if (!hasQueryParameters) 
+        getManager().find(Companies)
+            .then((companies) => {
+                res.send(companies)
+            })
+            .catch((err) => {
+                dbErrorHandler(err, res);
+            });
+     else { */
+        const {limitPerPage, skipRows} = configPagination(req);
+        getManager()
+            .find(Companies, {
+                where: req.query, 
+                take: limitPerPage,
+                skip: skipRows
+            })
+            .then((companies: Array<Companies>) => {
+                getManager()
+                .count(Companies, {
+                    where: req.query
+                }).then((numCompanies)=>{
+                    res.send({companies: companies, numCompanies: numCompanies})
+                }).catch((err) => {
+                    dbErrorHandler(err, res);
+                });
+            }).catch((err) => {
+                dbErrorHandler(err, res);
+            });
+    //}
 }
 
 export function getCompanyById(req: Request, res: Response) {
@@ -51,9 +74,9 @@ export function updateCompany(req: Request, res: Response) {
                         'message': process.env.COMPANY_UPDATED,
                         'id': req.params.id
                     })
-                }).catch((err) => {dbErrorHandler(err, res);});
+                }).catch((err) => { dbErrorHandler(err, res); });
         })
-        .catch((err) => {dbErrorHandler(err, res);});
+        .catch((err) => { dbErrorHandler(err, res); });
 }
 
 export function deleteCompany(req: Request, res: Response) {
@@ -65,11 +88,11 @@ export function deleteCompany(req: Request, res: Response) {
                         'message': process.env.COMPANY_DELETED,
                         'id': req.params.id
                     })
-                }).catch((err) => {dbErrorHandler(err, res);});
+                }).catch((err) => { dbErrorHandler(err, res); });
         })
-        .catch((err) => {dbErrorHandler(err, res);});
-  }
-  
+        .catch((err) => { dbErrorHandler(err, res); });
+}
+
 export function dbErrorHandler(err: any, res: Response) {
     if (err.name === "QueryFailedError")
         res.status(400).send({
@@ -85,4 +108,13 @@ export function dbErrorHandler(err: any, res: Response) {
             message: process.env.ERR500,
             //err: err
         })
+}
+
+function configPagination(req: Request){
+    const page = Number(req.query.page) || 1;
+    const itemsPerPage = Number(req.query.limit) || undefined;
+    let skipRows = itemsPerPage ? (page - 1) * itemsPerPage : 0;
+    delete req.query.page;
+    delete req.query.limit;
+    return {limitPerPage: itemsPerPage, skipRows}
 }

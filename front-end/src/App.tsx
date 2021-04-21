@@ -1,8 +1,7 @@
-import { Box, createMuiTheme, ThemeProvider } from '@material-ui/core';
-import Copyright from './components/Copyright';
-import CompaniesPage from './components/Companies/CompaniesPage';
-
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import { ptBR } from '@material-ui/core/locale';
+
+import MainPage from 'components/MainPage';
 
 const theme = createMuiTheme({
   palette: {
@@ -12,12 +11,9 @@ const theme = createMuiTheme({
 
 function App() {
   return (
-
     <ThemeProvider theme={theme}>
-      <CompaniesPage />
-      <Copyright />
+      <MainPage />
     </ThemeProvider>
-
   );
 }
 

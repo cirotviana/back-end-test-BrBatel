@@ -11,8 +11,8 @@ createConnection(dbConfig)
    .then((_connection: Connection) => {
 
       /**
-       * Retorna a lista de empresas 
-       * @Route GET /companies
+       * Retorna a lista de empresas com pesquisa e paginação
+       * @Route GET /companies example: /companies?name=Company&page=4&limit=1&faturamentoAnual=Até R$ 10 milhões
        * @group Empresas  
        * @returns {Array<Companies>} 200 - Response success
        */

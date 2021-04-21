@@ -1,14 +1,15 @@
 import React from 'react';
 import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
+import Box from '@material-ui/core/Box';
 import InputBase from '@material-ui/core/InputBase';
+import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Toolbar from '@material-ui/core/Toolbar';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { Box } from '@material-ui/core';
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -48,7 +49,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     inputInput: {
       padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
       paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
       transition: theme.transitions.create('width'),
       width: '100%',
@@ -65,16 +65,16 @@ const SearchCompaniesBar : React.FC<{updateSearchInput: Function, searchInputSta
 
   const {updateSearchInput, searchInputState} = props;
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [openMenu, setOpenMenu] = React.useState<null | HTMLElement>(null);
 
-  const isMenuOpen = Boolean(anchorEl);
+  const isMenuOpen = Boolean(openMenu);
 
-  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleOpenMenuUser = (event: React.MouseEvent<HTMLElement>) => {
+    setOpenMenu(event.currentTarget);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
+  const handleCloseMenuUser = () => {
+    setOpenMenu(null);
   };
 
   function handleSearchInputChange(event: any) {
@@ -82,19 +82,19 @@ const SearchCompaniesBar : React.FC<{updateSearchInput: Function, searchInputSta
   }
 
 
-  const menuId = 'primary-search-account-menu';
+  const menuId = 'user-menu';
   const renderMenu = (
     <Menu
-      anchorEl={anchorEl}
+      anchorEl={openMenu}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
+
       keepMounted
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpen}
-      onClose={handleMenuClose}
+      onClose={handleCloseMenuUser}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleCloseMenuUser}>Perfil</MenuItem>
+      <MenuItem onClick={handleCloseMenuUser}>Logout</MenuItem>
     </Menu>
   );
 
@@ -105,13 +105,13 @@ const SearchCompaniesBar : React.FC<{updateSearchInput: Function, searchInputSta
         aria-label="account of current user"
         aria-controls={menuId}
         aria-haspopup="true"
-        onClick={handleProfileMenuOpen}
+        onClick={handleOpenMenuUser}
         color="inherit"
       >
         <AccountCircle style={{ fontSize: '3rem' }} />
 
         <div className={classes.logo}>
-          Ciro Viana
+          Jimi Hendrix
         </div>
       </IconButton>
     </div>
@@ -123,7 +123,7 @@ const SearchCompaniesBar : React.FC<{updateSearchInput: Function, searchInputSta
         <SearchIcon />
       </div>
       <InputBase
-        placeholder="Buscar…"
+        placeholder="Buscar por nome…"
         classes={{
           root: classes.inputRoot,
           input: classes.inputInput,
@@ -137,16 +137,15 @@ const SearchCompaniesBar : React.FC<{updateSearchInput: Function, searchInputSta
 
   const renderLogo = (
     <div className={classes.logo} >
-      <img style={{ height: '6rem', width: '9rem' }} />
+      <img alt='Logo' src='/node-logo.png' style={{ height: '6rem', width: '9rem' }} />
     </div>
   )
 
   return (
     <>
-
       <AppBar position="static">
         <Box boxShadow={3}>
-          <Toolbar style={{ justifyContent: 'space-between', backgroundColor: '#333' }}>
+          <Toolbar style={{ justifyContent: 'space-around', backgroundColor: '#333' }}>
             {renderLogo}
             {renderSearch}
             {renderUserAvatar}
